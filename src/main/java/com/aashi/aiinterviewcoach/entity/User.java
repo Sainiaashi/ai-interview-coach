@@ -1,9 +1,11 @@
 package com.aashi.aiinterviewcoach.entity;
-import com.aashi.aiinterviewcoach.entity.Role;
 import jakarta.persistence.*;
 import java.util.*;
 import java.time.LocalDateTime;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Getter
 @Setter
@@ -27,6 +29,12 @@ public class User{
    @Enumerated(EnumType.STRING) 
    private Role role;
 
+   @CreationTimestamp
    private LocalDateTime createdAt;
-   private LocalDateTime updatedAt; 
+   @UpdateTimestamp
+   private LocalDateTime updatedAt;
+
+   @JsonManagedReference
+   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+private List<Resume> resumes = new ArrayList<>();
 }
